@@ -1,0 +1,29 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Captsone project as part of Jonas Schmedtmanns Ultimate JavaScript course.  Search and load recipies.",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cbhuber17/Forkify.git"
+  },
+  "author": "Colin Huber",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cbhuber17/Forkify/issues"
+  },
+  "homepage": "https://github.com/cbhuber17/Forkify#readme",
+  "dependencies": {
+    "core-js": "^3.29.0",
+    "parcel": "^2.8.3",
+    "regenerator-runtime": "^0.13.11"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.3",
+    "process": "^0.11.10"
+  }
+}
