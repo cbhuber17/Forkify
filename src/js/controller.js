@@ -1,7 +1,7 @@
 // Parcel filename of the icons
 import icons from 'url:../img/icons.svg';
 
-// Pollyfilling
+// Poly-filling
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -34,10 +34,16 @@ const renderSpinner = function (parentEl) {
 
 const showRecipe = async function () {
   try {
+    // Get hash part of the url
+    const id = window.location.hash.slice(1);
+    // const id = '5ed6604591c37cdc054bcc40'; // TODO: Remove
+
+    if (!id) return;
+
     // Loading recipe
     renderSpinner(recipeContainer);
     const res = await fetch(
-      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcc40'
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
     );
     const data = await res.json();
 
@@ -161,3 +167,6 @@ const showRecipe = async function () {
 };
 
 showRecipe();
+
+// Show recipe upon page load or URL hash (ID) change
+['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));
