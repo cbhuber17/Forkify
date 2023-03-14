@@ -1,6 +1,8 @@
 import { async } from 'regenerator-runtime';
 import { TIMEOUT_SEC } from './config';
 
+// -------------------------------------------------------------------
+
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -9,15 +11,17 @@ const timeout = function (s) {
   });
 };
 
+// -------------------------------------------------------------------
+
 export const getJSON = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]); // 2 promises - whichever happens first gets returned
     const data = await res.json();
 
-    if (!res.ok) throw new Error(`${data.message} ${res.status}`);
+    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
 
     return data;
   } catch (err) {
-    console.log(err);
+    throw err; // Rethrow to propagate error message in MVC chain
   }
 };
