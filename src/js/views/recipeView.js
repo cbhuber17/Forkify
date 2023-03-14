@@ -30,6 +30,12 @@ class RecipeView {
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   };
 
+  // Publisher sends info to subscriber in controller
+  addHandleRender(handler) {
+    // Show recipe upon page load or URL hash (ID) change
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
+  }
+
   #generateMarkup() {
     // Rendering recipe
     return `

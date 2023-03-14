@@ -11,7 +11,7 @@ const recipeContainer = document.querySelector('.recipe');
 
 ///////////////////////////////////////
 
-const controlRecipe = async function () {
+const controlRecipes = async function () {
   try {
     // Get hash part of the url
     // const id = window.location.hash.slice(1);
@@ -30,9 +30,9 @@ const controlRecipe = async function () {
   }
 };
 
-controlRecipe();
+// Subscriber asks for data in view module
+const init = function () {
+  recipeView.addHandleRender(controlRecipes);
+};
 
-// Show recipe upon page load or URL hash (ID) change
-['hashchange', 'load'].forEach(ev =>
-  window.addEventListener(ev, controlRecipe)
-);
+init();
