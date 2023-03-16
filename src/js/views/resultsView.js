@@ -7,9 +7,13 @@ class ResultsView extends View {
     'No recipes found for your your query!  Please try another one :)';
   _message = '';
 
+  // -------------------------------------------------------------------
+
   _generateMarkup() {
     return this._data.map(this._generateMarkupPreview).join('');
   }
+
+  // -------------------------------------------------------------------
 
   _generateMarkupPreview(result) {
     return `
@@ -27,5 +31,7 @@ class ResultsView extends View {
       `;
   }
 }
+
+// -------------------------------------------------------------------
 
 export default new ResultsView();

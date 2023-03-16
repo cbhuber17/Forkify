@@ -2,6 +2,7 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 // Poly-filling
 import 'core-js/stable';
@@ -40,16 +41,30 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // Render results
-    resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPage());
+
+    // Render initial pagination buttons
+    paginationView.render(model.state.search);
   } catch (err) {}
 };
 
 // -------------------------------------------------------------------
 
-// Subscriber asks for data in view module
+const controlPagination = function (goToPage) {
+  // Render NEW results
+  resultsView.render(model.getSearchResultsPage(goToPage));
+
+  // Render NEW pagination buttons
+  paginationView.render(model.state.search);
+};
+
+// -------------------------------------------------------------------
+
+// Subscriber asks for data in view module(s)
 const init = function () {
   recipeView.addHandleRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 
 // -------------------------------------------------------------------
