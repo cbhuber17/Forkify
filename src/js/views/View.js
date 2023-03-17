@@ -17,6 +17,42 @@ export default class View {
 
   // -------------------------------------------------------------------
 
+  // Update only changed parts of the DOM based on the incoming data
+  update(data) {
+    this._data = data;
+    const newMarkup = this._generateMarkup(); // Compare new HTML with old HTML
+
+    // Convert new markup string to DOM objects (create virtual DOM - one that is not on the real page)
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+
+    // Get all new and current elements in a list to compare
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+
+    // Go through each and check for differences
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+
+      // If nodes are not equal, and the child of the node (if it exists, denoted by '?') is text, update
+      // First update changed TEXT
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ''
+      ) {
+        curEl.textContent = newEl.textContent;
+      }
+
+      // Updates changed ATTRIBUTE
+      if (!newEl.isEqualNode(curEl)) {
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
+      }
+    });
+  }
+
+  // -------------------------------------------------------------------
+
   #clear() {
     this._parentElement.innerHTML = '';
   }
