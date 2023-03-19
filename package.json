@@ -1,11 +1,11 @@
 {
   "name": "forkify",
   "version": "1.0.0",
-  "description": "Captsone project as part of Jonas Schmedtmanns Ultimate JavaScript course.  Search and load recipies.",
-  "main": "index.js",
+  "description": "Capstone project as part of Jonas Schmedtmann's Ultimate JavaScript course.  Search and load recipes.",
+  "default": "index.js",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "repository": {
     "type": "git",
