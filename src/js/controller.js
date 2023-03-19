@@ -4,6 +4,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import bookmarksView from './views/bookmarksView.js';
 import paginationView from './views/paginationView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 // Poly-filling
 import 'core-js/stable';
@@ -102,6 +103,12 @@ const controlBookmarks = function () {
 
 // -------------------------------------------------------------------
 
+const controlAddRecipe = function (newRecipe) {
+  // Upload the new recipe data
+};
+
+// -------------------------------------------------------------------
+
 // Subscriber asks for data in view module(s)
 const init = function () {
   // Register handler functions
@@ -111,6 +118,7 @@ const init = function () {
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 
 // -------------------------------------------------------------------
