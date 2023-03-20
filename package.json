@@ -19,12 +19,15 @@
   "homepage": "https://github.com/cbhuber17/Forkify#readme",
   "dependencies": {
     "core-js": "^3.29.0",
+    "dotenv": "^16.0.3",
     "fractional": "^1.0.0",
     "parcel": "^2.8.3",
     "regenerator-runtime": "^0.13.11"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "process": "^0.11.10"
   }
 }
