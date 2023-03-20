@@ -1,4 +1,5 @@
 import * as model from './model.js';
+import { MODAL_CLOSE_SEC } from './config.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
@@ -12,6 +13,13 @@ import 'regenerator-runtime/runtime';
 
 // -------------------------------------------------------------------
 
+/**
+ * Control recipe rendering based on URL hash changes
+ * @async
+ * @function controlRecipes
+ * @returns {undefined}
+ * @throws {Error} If an error occurs during the execution of the function
+ */
 const controlRecipes = async function () {
   try {
     // Get hash part of the url
@@ -35,11 +43,19 @@ const controlRecipes = async function () {
     recipeView.render(model.state.recipe);
   } catch (err) {
     recipeView.renderError();
+    console.error(err);
   }
 };
 
 // -------------------------------------------------------------------
 
+/**
+ * Controller function that handles search results.
+ *
+ * @async
+ * @function controlSearchResults
+ * @returns {Promise<void>} - A Promise that resolves when search results are loaded and rendered.
+ */
 const controlSearchResults = async function () {
   try {
     resultsView.renderSpinner();
@@ -60,6 +76,11 @@ const controlSearchResults = async function () {
 
 // -------------------------------------------------------------------
 
+/**
+ * Updates the search results and pagination buttons when a new page is clicked
+ *
+ * @param {number} goToPage - The page number to go to
+ */
 const controlPagination = function (goToPage) {
   // Render NEW results
   resultsView.render(model.getSearchResultsPage(goToPage));
@@ -70,17 +91,28 @@ const controlPagination = function (goToPage) {
 
 // -------------------------------------------------------------------
 
+/**
+ * Updates the recipe servings in the state and updates the view.
+ *
+ * @param {number} newServings - The new number of servings for the recipe.
+ */
 const controlServings = function (newServings) {
   // Update the recipe servings (in the state)
   model.updateServings(newServings);
 
   // Update the view
-  // recipeView.render(model.state.recipe);
   recipeView.update(model.state.recipe); // Update rather than render, as render will do the entire DOM, putting unnecessary work on the browser
 };
 
 // -------------------------------------------------------------------
 
+/**
+ * Controller function to add or remove a bookmark to/from the current recipe.
+ * Updates the model and view accordingly.
+ *
+ * @function
+ * @returns {undefined}
+ */
 const controlAddBookmark = function () {
   // Add/remove bookmark
   if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
@@ -96,6 +128,9 @@ const controlAddBookmark = function () {
 
 // -------------------------------------------------------------------
 
+/**
+ * Controller function for rendering bookmarks on page load.
+ */
 const controlBookmarks = function () {
   // Ensure the bookmarks from local storage are loaded on page render
   bookmarksView.render(model.state.bookmarks);
@@ -103,8 +138,49 @@ const controlBookmarks = function () {
 
 // -------------------------------------------------------------------
 
-const controlAddRecipe = function (newRecipe) {
-  // Upload the new recipe data
+/**
+ * Controller function for adding a new recipe.
+ *
+ * @async
+ * @param {Object} newRecipe - The new recipe data.
+ * @param {string} newRecipe.title - The title of the new recipe.
+ * @param {string} newRecipe.sourceUrl - The URL of the source for the new recipe.
+ * @param {string} newRecipe.image - The URL of the image for the new recipe.
+ * @param {string} newRecipe.publisher - The publisher of the new recipe.
+ * @param {number} newRecipe.cookingTime - The cooking time of the new recipe in minutes.
+ * @param {number} newRecipe.servings - The number of servings the new recipe makes.
+ * @param {string[]} newRecipe.ingredients - The ingredients needed for the new recipe.
+ * @returns {Promise<void>}
+ */
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    // Show loading spinner
+    addRecipeView.renderSpinner();
+
+    // Upload the new recipe data
+    await model.uploadRecipe(newRecipe);
+
+    // Render recipe
+    recipeView.render(model.state.recipe);
+
+    // Display success message
+    addRecipeView.renderMessage();
+
+    // Render bookmark view
+    bookmarksView.render(model.state.bookmarks);
+
+    // Change ID in URL
+    // Change URL without reloading page
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
+    // Close form window
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
+  } catch (err) {
+    console.error(err);
+    addRecipeView.renderError(err.message);
+  }
 };
 
 // -------------------------------------------------------------------
@@ -113,7 +189,7 @@ const controlAddRecipe = function (newRecipe) {
 const init = function () {
   // Register handler functions
   bookmarksView.addHandlerRender(controlBookmarks);
-  recipeView.addHandleRender(controlRecipes);
+  recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);

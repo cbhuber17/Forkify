@@ -5,6 +5,14 @@ export default class View {
 
   // -------------------------------------------------------------------
 
+  /**
+   * Renders the view with the provided data.
+   *
+   * @param {Object|Array} data - The data used to generate the view's markup.
+   * @param {boolean} [render=true] - Whether to render the generated markup or not.
+   * @returns {string|undefined} If `render` is false, returns the generated markup as a string.
+   * Otherwise, inserts the generated markup into the DOM and returns undefined.
+   */
   render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
@@ -14,13 +22,18 @@ export default class View {
 
     if (!render) return markup;
 
-    this.#clear();
+    this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   // -------------------------------------------------------------------
 
   // Update only changed parts of the DOM based on the incoming data
+  /**
+   * Updates the view with new data, by comparing the new markup with the old markup and updating only the changed elements.
+   *
+   * @param {Object|Array} data - The new data used to generate the updated view's markup.
+   */
   update(data) {
     this._data = data;
     const newMarkup = this._generateMarkup(); // Compare new HTML with old HTML
@@ -56,12 +69,20 @@ export default class View {
 
   // -------------------------------------------------------------------
 
-  #clear() {
+  /**
+   * Clears the content of the parent element.
+   *
+   * @private
+   */
+  _clear() {
     this._parentElement.innerHTML = '';
   }
 
   // -------------------------------------------------------------------
 
+  /**
+   * Renders a spinner in the parent element.
+   */
   renderSpinner() {
     const markup = `
                       <div class="spinner">
@@ -71,12 +92,17 @@ export default class View {
                       </div>
       `;
 
-    this.#clear();
+    this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   // -------------------------------------------------------------------
 
+  /**
+   * Renders an error message in the parent element.
+   *
+   * @param {string} [message=this._errorMessage] - The error message to display. Defaults to the `_errorMessage` property of the view.
+   */
   renderError(message = this._errorMessage) {
     const markup = `
       <div class="error">
@@ -89,14 +115,19 @@ export default class View {
       </div>
       `;
 
-    this.#clear();
+    this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   // -------------------------------------------------------------------
 
+  /**
+   * Renders a message in the parent element.
+   *
+   * @param {string} [message=this._message] - The message to display. Defaults to the `_message` property of the view.
+   */
   renderMessage(message = this._message) {
-    markup = `
+    const markup = `
       <div class="message">
           <div>
               <svg>
@@ -106,5 +137,8 @@ export default class View {
           <p>${message}</p>
       </div>
       `;
+
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 }

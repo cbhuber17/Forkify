@@ -8,7 +8,10 @@ class ResultsView extends View {
   _message = '';
 
   // -------------------------------------------------------------------
-
+  /**
+   * Generates markup for displaying search results in the UI.
+   * @returns {string} HTML markup string to display search results.
+   */
   _generateMarkup() {
     return this._data.map(result => previewView.render(result, false)).join('');
   }

@@ -7,6 +7,10 @@ class PaginationView extends View {
   // -------------------------------------------------------------------
 
   // Add publisher to handle clicking pagination buttons
+  /**
+  Adds an event listener to the pagination element to handle clicking on pagination buttons.
+  @param {Function} handler - The function that handles the click event on the pagination buttons.
+  */
   addHandlerClick(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--inline');
@@ -20,6 +24,11 @@ class PaginationView extends View {
 
   // -------------------------------------------------------------------
 
+  /**
+   * Generates HTML markup for the pagination buttons based on the current page number
+   * and the total number of pages in the model's data.
+   * @returns {string} The HTML markup string representing the pagination buttons.
+   */
   _generateMarkup() {
     const curPage = this._data.page;
     const numPages = Math.ceil(
@@ -48,7 +57,14 @@ class PaginationView extends View {
   }
 
   // -------------------------------------------------------------------
-
+  /**
+   * Returns the HTML markup for a pagination button, given the current page and offset.
+   *
+   * @private
+   * @param {number} curPage - The current page number.
+   * @param {number} offset - The offset by which to change the current page number.
+   * @returns {string} The HTML markup for the pagination button.
+   */
   _generateMarkupButton(curPage, offset) {
     let btnLocation = '';
     let arrowDirection = '';

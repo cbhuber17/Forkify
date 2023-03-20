@@ -11,7 +11,12 @@ class RecipeView extends View {
   // -------------------------------------------------------------------
 
   // Publisher sends info to subscriber in controller
-  addHandleRender(handler) {
+  /**
+   * Adds a handler function to render the recipe.
+   *
+   * @param {Function} handler - The handler function to be called when the recipe needs to be rendered.
+   */
+  addHandlerRender(handler) {
     // Show recipe upon page load or URL hash (ID) change
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
@@ -19,6 +24,10 @@ class RecipeView extends View {
   // -------------------------------------------------------------------
 
   // Handle when serving buttons are clicked
+  /**
+  Add an event listener to the recipe element for updating the servings
+  @param {Function} handler - The event handler function for updating the servings
+  */
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
@@ -33,6 +42,10 @@ class RecipeView extends View {
 
   // -------------------------------------------------------------------
 
+  /**
+   * Add event listener to bookmark button for adding recipe to bookmarks
+   * @param {Function} handler - The event handler function that will be called when the bookmark button is clicked
+   */
   addHandlerAddBookmark(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--bookmark');
@@ -44,6 +57,10 @@ class RecipeView extends View {
 
   // -------------------------------------------------------------------
 
+  /**
+   * Generates markup for displaying recipes in the UI.
+   * @returns {string} HTML markup string to display the recipe.
+   */
   _generateMarkup() {
     // Rendering recipe
     return `
@@ -91,8 +108,10 @@ class RecipeView extends View {
             </div>
           </div>
 
-          <div class="recipe__user-generated">
-
+          <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+            <svg>
+              <use href="${icons}#icon-user"></use>
+            </svg>
           </div>
           <button class="btn--round btn--bookmark">
             <svg class="">
@@ -138,6 +157,11 @@ class RecipeView extends View {
 
   // -------------------------------------------------------------------
 
+  /**
+   * Generates markup for displaying ingredients in the UI.
+   * @param {string} ing The ingredient as a string.
+   * @returns {string} HTML markup string to display the ingredient.
+   */
   _generateMarkupIngredient(ing) {
     return `
               <li class="recipe__ingredient">
