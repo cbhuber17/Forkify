@@ -3,14 +3,33 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100rem;
+
   background-color: white;
   border-radius: 9px;
 
-  padding: 5rem 6rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.25);
   z-index: 1000;
   transition: all 0.5s;
+
+  @media (min-width: $bp-large) {
+    padding: 5rem 6rem;
+    width: 100rem;
+  }
+
+  @media (min-width: $bp-medium) and (max-width: $bp-large) {
+    padding: 3rem 4rem;
+    width: 90rem;
+  }
+
+  @media (min-width: $bp-small) and (max-width: $bp-medium) {
+    padding: 2rem 3rem;
+    width: 75rem;
+  }
+
+  @media (max-width: $bp-small) {
+    padding: 1rem 2rem;
+    width: 40rem;
+  }
 
   .btn--close-modal {
     font-family: inherit;
@@ -44,8 +63,15 @@
 
 .upload {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem 6rem;
+
+  @media (min-width: $bp-small) {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem 6rem;
+  }
+  @media (max-width: $bp-small) {
+    grid-template-columns: 1fr;
+    gap: 2rem 3rem;
+  }
 
   &__column {
     display: grid;
