@@ -198,7 +198,9 @@
 .bookmarks {
   padding: 1rem 0;
   position: absolute;
-  // right: 0;
+  @media (max-width: $bp-small) {
+    right: -6rem;
+  }
   right: -2.5rem;
   z-index: 10;
   width: 40rem;
