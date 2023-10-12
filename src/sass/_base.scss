@@ -14,7 +14,7 @@ $gradient: linear-gradient(to right bottom, $color-grad-1, $color-grad-2);
 $bp-large: 78.15em; // 1250px
 $bp-medium: 61.25em; // 980px
 $bp-small: 37.5em; // 600px
-$bp-smallest: 31.25em; // 500px
+$bp-smallest: 23.4em; // 375px
 
 * {
   margin: 0;
@@ -56,15 +56,52 @@ body {
   overflow: hidden;
   box-shadow: 0 2rem 6rem 0.5rem rgba($color-grey-dark-1, 0.2);
 
-  display: grid;
-  grid-template-rows: 10rem minmax(100rem, auto);
-  grid-template-columns: 1fr 2fr;
-  grid-template-areas:
-    'head head'
-    'list recipe';
-
+  @media only screen and (min-width: $bp-large) {
+    display: grid;
+    grid-template-rows: 10rem minmax(100rem, auto);
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+      'head head'
+      'list recipe';
+  }
   @media only screen and (max-width: $bp-large) {
     max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  @media (min-width: $bp-medium) and (max-width: $bp-large) {
+    display: grid;
+    grid-template-rows: 10rem minmax(100rem, auto);
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+      'head head'
+      'list recipe';
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  @media (min-width: $bp-small) and (max-width: $bp-medium) {
+    display: grid;
+    grid-template-rows: 20rem minmax(100rem, auto);
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+      'head head'
+      'list recipe';
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  @media (min-width: $bp-smallest) and (max-width: $bp-small) {
+    display: grid;
+    grid-template-rows: auto minmax(100rem, auto) minmax(100rem, auto);
+    grid-template-columns: minmax(50rem, auto);
+    grid-template-areas:
+      'head'
+      'list'
+      'recipe';
     margin: 0;
     border-radius: 0;
   }
